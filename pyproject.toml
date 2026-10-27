@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simarch"
+version = "0.1.0"
+description = "Simulation Architecture: Autonomous AI Organizations, Persistent Digital Workforce & Decision Intelligence"
+readme = "README.md"
+authors = [
+    { name = "SimArch Contributors" }
+]
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+keywords = [
+    "ai-agents",
+    "multi-agent-systems",
+    "agent-orchestration",
+    "simulation",
+    "decision-intelligence",
+    "digital-workforce",
+    "autonomous-organizations",
+]
+
+dependencies = [
+    "pydantic>=2.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.22.0",
+    "pyyaml>=6.0",
+    "httpx>=0.24.0",
+    "jinja2>=3.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+]
+
+[project.scripts]
+simarch = "simarch.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+simarch = [
+    "ui/static/*",
+    "ui/static/css/*",
+    "ui/static/js/*",
+    "ui/templates/*",
+    "skills/manifests/*",
+]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+asyncio_mode = "auto"

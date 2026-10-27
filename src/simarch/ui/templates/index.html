@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimArch — Operational Architecture Dashboard</title>
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">S</div>
+        <div class="brand-text">
+          <h1>SimArch</h1>
+          <span>Autonomous AI Org</span>
+        </div>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item active" data-target="overview">Overview</li>
+        <li class="nav-item" data-target="organization">Organization</li>
+        <li class="nav-item" data-target="projects">Projects & Tasks</li>
+        <li class="nav-item" data-target="operations">Live Operations</li>
+        <li class="nav-item" data-target="decisions">Decision Intelligence</li>
+        <li class="nav-item" data-target="simulation">Simulation Engine</li>
+        <li class="nav-item" data-target="learning">Self-Learning</li>
+        <li class="nav-item" data-target="governance">Governance & Audit</li>
+      </ul>
+      <div class="system-status">
+        <span>Engine: <strong id="engine-status">ONLINE</strong></span>
+        <span class="status-dot"></span>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="main-wrapper">
+      <header class="top-bar">
+        <div class="page-title" id="current-view-title">Operational Overview</div>
+        <div class="top-actions">
+          <button class="btn" id="btn-refresh">Refresh Data</button>
+          <button class="btn btn-primary" id="btn-run-sim-modal">Quick Simulation</button>
+        </div>
+      </header>
+
+      <main class="content-pane">
+        <!-- 1. Overview Section -->
+        <section id="view-overview" class="view-section active">
+          <div class="grid-metrics">
+            <div class="metric-card">
+              <div class="metric-label">Active Organizations</div>
+              <div class="metric-value" id="metric-orgs">0</div>
+              <div class="metric-sub">Formed & Managed</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Active Projects</div>
+              <div class="metric-value" id="metric-projects">0</div>
+              <div class="metric-sub">Executing Workflows</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Tasks Completed</div>
+              <div class="metric-value" id="metric-tasks-completed">0</div>
+              <div class="metric-sub" id="metric-tasks-pending">0 Pending / In Review</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Decisions Evaluated</div>
+              <div class="metric-value" id="metric-decisions">0</div>
+              <div class="metric-sub">Evidence-backed Choices</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Recent Strategic Projects</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Project Name</th>
+                  <th>Objective</th>
+                  <th>Status</th>
+                  <th>Budget</th>
+                  <th>Created</th>
+                </tr>
+              </thead>
+              <tbody id="overview-projects-tbody">
+                <tr><td colspan="5" style="text-align:center;">Loading project data...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Recent System Events</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Event Type</th>
+                  <th>Component</th>
+                  <th>Project / Task</th>
+                </tr>
+              </thead>
+              <tbody id="overview-events-tbody">
+                <tr><td colspan="4" style="text-align:center;">No recent events recorded.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 2. Organization Section -->
+        <section id="view-organization" class="view-section">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Corporate Role Hierarchy & Enforced Authority</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Role Title</th>
+                  <th>Tier</th>
+                  <th>Reports To</th>
+                  <th>Decision Authority</th>
+                  <th>Tool Permissions</th>
+                  <th>Budget Limit</th>
+                </tr>
+              </thead>
+              <tbody id="org-roles-tbody">
+                <tr><td colspan="6" style="text-align:center;">No organizations formed yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 3. Projects & Tasks Section -->
+        <section id="view-projects" class="view-section">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Task Dependency DAG & Deliverables</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Task ID</th>
+                  <th>Objective</th>
+                  <th>Assigned Role</th>
+                  <th>Dependencies</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="tasks-tbody">
+                <tr><td colspan="6" style="text-align:center;">No tasks found.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 4. Live Operations Section -->
+        <section id="view-operations" class="view-section">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Active Worker Leases & State Heartbeats</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Worker ID</th>
+                  <th>Status</th>
+                  <th>Lease Expiry</th>
+                  <th>Heartbeat</th>
+                  <th>Retries</th>
+                </tr>
+              </thead>
+              <tbody id="ops-leases-tbody">
+                <tr><td colspan="6" style="text-align:center;">No active worker leases at present.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 5. Decision Intelligence Section -->
+        <section id="view-decisions" class="view-section">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Decision Records & Grounded Winning Rationales</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Objective</th>
+                  <th>Chosen Option</th>
+                  <th>Winning Rationale</th>
+                  <th>Status</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="decisions-tbody">
+                <tr><td colspan="5" style="text-align:center;">No decisions evaluated yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 6. Simulation Engine Section -->
+        <section id="view-simulation" class="view-section">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Discrete-Event Business Simulations & Projections</div>
+              <button class="btn btn-primary" id="btn-trigger-sim">Run 12-Month Simulation</button>
+            </div>
+            <div style="padding: 16px;">
+              <div id="sim-results-output">
+                <p style="color: var(--text-dim);">Click 'Run 12-Month Simulation' to test discrete events, causal feedback loops, and customer acquisition/churn models.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. Self-Learning Section -->
+        <section id="view-learning" class="view-section">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Performance-Based Staffing Recommendations</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Role</th>
+                  <th>Quality Score</th>
+                  <th>Review Pass Rate</th>
+                  <th>Recommended Action</th>
+                </tr>
+              </thead>
+              <tbody id="learning-staffing-tbody">
+                <tr><td colspan="4" style="text-align:center;">No staffing evaluations calculated yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 8. Governance & Audit Section -->
+        <section id="view-governance" class="view-section">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Audited Runtime State Transitions & Invariant Logs</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Actor</th>
+                  <th>Entity</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="governance-audit-tbody">
+                <tr><td colspan="4" style="text-align:center;">No audit records available.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

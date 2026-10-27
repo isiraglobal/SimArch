@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - name: "SimArch Contributors"
+title: "SimArch: Simulation Architecture for Autonomous AI Organizations & Persistent Digital Workforce"
+version: 0.1.0
+date-released: 2026-10-27
+url: "https://github.com/simarch/simarch"
+license: Apache-2.0
+keywords:
+  - "autonomous-agents"
+  - "multi-agent-systems"
+  - "ai-organizations"
+  - "decision-intelligence"
+  - "world-simulation"
+  - "digital-workforce"
