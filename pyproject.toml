@@ -33,7 +33,15 @@ keywords = [
     "decision-intelligence",
     "digital-workforce",
     "autonomous-organizations",
+    "model-context-protocol",
+    "mcp",
 ]
+
+[project.urls]
+Homepage = "https://github.com/isiraglobal/SimArch"
+Repository = "https://github.com/isiraglobal/SimArch"
+Issues = "https://github.com/isiraglobal/SimArch/issues"
+Documentation = "https://github.com/isiraglobal/SimArch#readme"
 
 dependencies = [
     "pydantic>=2.0.0",
