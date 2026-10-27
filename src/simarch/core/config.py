@@ -13,7 +13,8 @@ class Settings(BaseModel):
     home_dir: Path = Field(default_factory=lambda: Path(os.getenv("SIMARCH_HOME", Path.cwd() / ".simarch")))
     db_path: Optional[Path] = None
     default_model: str = Field(default_factory=lambda: os.getenv("SIMARCH_DEFAULT_MODEL", "deterministic-local"))
-    enable_dashboard: bool = True
+    enable_dashboard: bool = Field(default_factory=lambda: os.getenv("SIMARCH_ENABLE_DASHBOARD", "false").lower() in ("true", "1"))
+    dashboard_locked: bool = True
     dashboard_port: int = 8400
     dashboard_host: str = "127.0.0.1"
     worker_lease_seconds: int = 30

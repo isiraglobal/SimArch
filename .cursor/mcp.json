@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "simarch": {
+      "command": "simarch",
+      "args": ["mcp"],
+      "description": "SimArch Autonomous AI Organizations & World Simulation"
+    }
+  }
+}

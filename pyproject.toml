@@ -55,6 +55,7 @@ dev = [
 
 [project.scripts]
 simarch = "simarch.cli:app"
+simarch-mcp = "simarch.mcp.server:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

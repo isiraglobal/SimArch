@@ -274,5 +274,82 @@ def serve(
     uvicorn.run("simarch.api.app:app", host=host, port=port, log_level="info")
 
 
+# MCP Server Subcommand for AI Tools
+@app.command("mcp")
+def mcp():
+    """Launch the Model Context Protocol (MCP) stdio server for direct AI tool integration."""
+    from simarch.mcp.server import main as mcp_main
+    mcp_main()
+
+
+# AI Extension Configuration Helper
+@app.command("extension-config")
+def extension_config():
+    """Print ready-to-use configuration snippets to hardwire SimArch as an extension in AI tools."""
+    claude_mcp = {
+        "mcpServers": {
+            "simarch": {
+                "command": "simarch-mcp",
+                "args": []
+            }
+        }
+    }
+
+    cursor_mcp = {
+        "mcpServers": {
+            "simarch": {
+                "command": "simarch",
+                "args": ["mcp"]
+            }
+        }
+    }
+
+    console.print(Panel(
+        f"[bold cyan]Hardwire SimArch as an AI Extension[/bold cyan]\n\n"
+        f"[bold]1. For Claude Code / Claude Desktop ([code]claude_desktop_config.json[/code]):[/bold]\n"
+        f"[green]{json.dumps(claude_mcp, indent=2)}[/green]\n\n"
+        f"[bold]2. For Cursor / Antigravity ([code].cursor/mcp.json[/code] or [code].mcp.json[/code]):[/bold]\n"
+        f"[green]{json.dumps(cursor_mcp, indent=2)}[/green]\n\n"
+        f"[bold]3. Localhost Locking Policy:[/bold]\n"
+        f"By default, localhost is [bold red]LOCKED & DORMANT[/bold red] with zero listening ports.\n"
+        f"The AI agent can invoke [cyan]simarch_toggle_localhost(enable=True)[/cyan] only when human visual inspection is needed.",
+        title="SimArch AI Extension Setup"
+    ))
+
+
+# Dashboard Locking & Localhost Controller Subcommand
+dash_app = typer.Typer(help="Control and inspect the on-demand localhost dashboard server.")
+app.add_typer(dash_app, name="dashboard")
+
+
+@dash_app.command("status")
+def dash_status():
+    """Check whether the localhost dashboard is active or locked."""
+    from simarch.api.server_manager import dashboard_manager
+    status = dashboard_manager.get_status()
+    if status["active"]:
+        console.print(f"[bold green]Dashboard is ACTIVE[/bold green] at [cyan]{status['url']}[/cyan]")
+    else:
+        console.print("[bold yellow]Localhost is LOCKED & DORMANT[/bold yellow] (no ports listening).")
+
+
+@dash_app.command("start")
+def dash_start(
+    port: int = typer.Option(8400, "--port", "-p", help="Port to bind to on loopback.")
+):
+    """Unlock and start the localhost dashboard server."""
+    from simarch.api.server_manager import dashboard_manager
+    res = dashboard_manager.start(host="127.0.0.1", port=port)
+    console.print(f"[bold green]{res['message']}[/bold green]")
+
+
+@dash_app.command("stop")
+def dash_stop():
+    """Stop the dashboard server and lock localhost."""
+    from simarch.api.server_manager import dashboard_manager
+    res = dashboard_manager.stop()
+    console.print(f"[bold yellow]{res['message']}[/bold yellow]")
+
+
 if __name__ == "__main__":
     app()

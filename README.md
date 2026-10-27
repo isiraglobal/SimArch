@@ -90,7 +90,7 @@ or run directly via Python:
 python3 examples/first_organization.py
 ```
 
-### Launch the Operational Dashboard
+### Launch the Operational Dashboard (On-Demand)
 ```bash
 simarch serve --port 8400
 ```
@@ -103,7 +103,64 @@ Open [http://127.0.0.1:8400](http://127.0.0.1:8400) to view:
 
 ---
 
-## 5. Complete Working Example
+## 5. Hardwired AI Extension & Localhost Locking
+
+SimArch is designed to be hardwired directly as an extension into modern AI tools (**Claude Code**, **Cursor**, **Antigravity**, **LangChain**, **CrewAI**).
+
+### Localhost Locking Policy
+By default, **localhost is LOCKED and DORMANT** with zero listening ports:
+- All operations (organization formation, task DAG execution, decision intelligence, world simulations) execute purely in-process or over standard I/O (stdio).
+- **The AI agent decides** when/if human visual inspection is needed by calling `simarch_toggle_localhost(enable=True)`.
+- When finished, the agent locks localhost down again with `simarch_toggle_localhost(enable=False)`.
+
+### Connect via Model Context Protocol (MCP)
+
+Print ready-to-copy configuration templates for your AI tool:
+```bash
+simarch extension-config
+```
+
+#### For Claude Code / Claude Desktop (`claude_desktop_config.json`):
+```json
+{
+  "mcpServers": {
+    "simarch": {
+      "command": "simarch-mcp",
+      "args": []
+    }
+  }
+}
+```
+
+#### For Cursor / Windsurf (`.cursor/mcp.json` or `.mcp.json`):
+```json
+{
+  "mcpServers": {
+    "simarch": {
+      "command": "simarch",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+#### For Python Autonomous Agents:
+```python
+from simarch.extension import SimArchAIExtension
+
+ext = SimArchAIExtension()
+org = ext.form_organization("Apex Systems", "Build autonomous agent platforms")
+sim = ext.run_simulation(project_id="proj_1", duration_days=365.0)
+
+# Localhost is locked by default. AI agent decides when to spin it up:
+ext.toggle_localhost(enable=True, port=8400)
+# Lock it back down when human inspection is complete:
+ext.toggle_localhost(enable=False)
+```
+
+---
+
+## 6. Complete Working Example
 
 Below is a complete script demonstrating dynamic organization synthesis, task execution, deliverable auditing, multi-criteria decision intelligence, and process restart recovery:
 
@@ -178,7 +235,7 @@ print(f"Rationale: {evaluated_dec.reasons_for_selection}")
 
 ---
 
-## 6. Real Execution Output
+## 7. Real Execution Output
 
 Below is the verified output produced during automated execution of the smoke test:
 
@@ -223,12 +280,16 @@ Step 7: Verifying Process Restart & Persistent Recovery:
 
 ---
 
-## 7. Command-Line Reference
+## 8. Command-Line Reference
 
 SimArch provides a comprehensive CLI for headless scripting and operational automation:
 
 | Command | Description |
 | :--- | :--- |
+| `simarch mcp` | **Hardwired AI Extension**: Launch Model Context Protocol stdio server for Claude Code/Cursor/Antigravity |
+| `simarch extension-config` | Output ready-to-use JSON snippets for Claude Desktop, Cursor, and agent frameworks |
+| `simarch dashboard status` | Check whether localhost dashboard is locked or active |
+| `simarch dashboard start/stop` | On-demand control: unlock or lock localhost dashboard server |
 | `simarch init [--path PATH]` | Initialize database, WAL configuration, and workspace directories |
 | `simarch smoke-test` | Run complete end-to-end reproducible first organization verification |
 | `simarch org create --name <name> --objective <text>` | Dynamically synthesize an organization graph and role contracts |
@@ -243,7 +304,7 @@ SimArch provides a comprehensive CLI for headless scripting and operational auto
 
 ---
 
-## 8. Discrete-Event Simulation Engine
+## 9. Discrete-Event Simulation Engine
 
 SimArch separates human wall-clock time from simulated time. Simulating 5 years of company dynamics executes in milliseconds:
 
